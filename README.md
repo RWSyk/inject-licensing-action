@@ -1,4 +1,5 @@
 # Inject Licensing GitHub Action & CLI Tool
+**Developed by Raven Web Services** ([https://ravenweb.services](https://ravenweb.services))
 
 Automated SDK injection and release publishing for WordPress plugins and themes.
 
@@ -28,7 +29,7 @@ jobs:
         with:
           product-id: 'my-plugin-slug'
           api-key: ${{ secrets.DEVELOPER_API_KEY }}
-          server-url: 'https://licensing.example.com'
+          server-url: 'https://ravenweb.services'
           input-zip: './plugin.zip'
           output-zip: './licensed-plugin.zip'
           version: ${{ github.ref_name }}
@@ -37,5 +38,5 @@ jobs:
 ## Local CLI Usage
 
 ```bash
-npx licensing-injector --input=./plugin.zip --product-id=my-plugin-slug --server-url=https://example.com --api-key=dev_sec_xxx --upload
+npx licensing-injector --input=./plugin.zip --product-id=my-plugin-slug --server-url=https://ravenweb.services --api-key=dev_sec_xxx --upload
 ```
