@@ -1,0 +1,21 @@
+{
+  "name": "inject-licensing-action",
+  "version": "1.0.0",
+  "description": "GitHub Action and CLI Injector for WordPress Licensing SDK",
+  "main": "injector.js",
+  "bin": {
+    "licensing-injector": "./injector.js"
+  },
+  "scripts": {
+    "start": "node injector.js"
+  },
+  "keywords": [
+    "wordpress",
+    "licensing",
+    "injector",
+    "sdk",
+    "github-action"
+  ],
+  "author": "Custom Licensing Team",
+  "license": "MIT"
+}

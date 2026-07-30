@@ -1,0 +1,28 @@
+name: Build & Release Licensed Plugin
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v3
+
+      - name: Build Plugin ZIP Archive
+        run: |
+          mkdir -p build
+          zip -r ./build/my-plugin.zip . -x "*.git*" "build/*" ".github/*"
+
+      - name: Inject Licensing SDK & Publish to Server
+        uses: yourbrand/inject-licensing-action@v1
+        with:
+          product-slug: 'my-plugin-slug'
+          api-key: ${{ secrets.LICENSING_API_KEY }}
+          server-url: 'https://licensing.example.com'
+          input-zip: './build/my-plugin.zip'
+          output-zip: './build/licensed-my-plugin.zip'
+          version: ${{ github.ref_name }}

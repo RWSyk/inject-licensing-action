@@ -1,0 +1,49 @@
+name: 'Inject Licensing SDK & Publish Release'
+description: 'Injects Licensing SDK into a WordPress plugin archive and publishes the release to Custom License Server.'
+author: 'Custom Licensing Server Team'
+branding:
+  icon: 'shield'
+  color: 'indigo'
+
+inputs:
+  product-id:
+    description: 'Product ID or Slug registered on licensing server'
+    required: true
+  api-key:
+    description: 'Developer REST API Key (dev_sec_...)'
+    required: true
+  server-url:
+    description: 'Licensing Server URL (e.g. https://licensing.example.com)'
+    required: true
+  input-zip:
+    description: 'Path to raw plugin input ZIP file'
+    required: true
+    default: './plugin.zip'
+  output-zip:
+    description: 'Path where injected ZIP file should be written'
+    required: false
+    default: './licensed-plugin.zip'
+  version:
+    description: 'Release version string (e.g. 1.0.0)'
+    required: false
+    default: '1.0.0'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up Node.js Environment
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Run Licensing SDK AST Injector & Upload
+      shell: bash
+      run: |
+        node ${{ github.action_path }}/injector.js \
+          --input="${{ inputs.input-zip }}" \
+          --output="${{ inputs.output-zip }}" \
+          --product-id="${{ inputs.product-id }}" \
+          --server-url="${{ inputs.server-url }}" \
+          --api-key="${{ inputs.api-key }}" \
+          --version="${{ inputs.version }}" \
+          --upload
