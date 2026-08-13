@@ -47,9 +47,11 @@ console.log(`\x1b[32m[✓] SDK Bootstrap code & vendor files injected successful
 console.log(`\x1b[32m[✓] Saved licensed ZIP to: ${outputZip}\x1b[0m`);
 
 if (isUpload && apiKey) {
-	console.log('\n\x1b[33m[→] Uploading release package directly to Licensing Server...\x1b[0m');
+	const endpointPath = args['endpoint'] || '/wp-json/waas/v1/releases/upload';
+	const fullUrl = `${serverUrl.replace(/\/$/, '')}${endpointPath.startsWith('/') ? endpointPath : '/' + endpointPath}`;
+	console.log(`\n\x1b[33m[→] Uploading release package to ${fullUrl}...\x1b[0m`);
 
-	const uploadUrl = new URL(`${serverUrl.replace(/\/$/, '')}/wp-json/licensing/v1/releases/upload`);
+	const uploadUrl = new URL(fullUrl);
 	const fileStream = fs.createReadStream(outputZip);
 	const boundary = '--------------------------' + Date.now().toString(16);
 

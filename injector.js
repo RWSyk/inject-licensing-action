@@ -42,9 +42,11 @@ fs.copyFileSync(inputZip, outputZip);
 console.log(`[✓] Licensed archive created at: ${outputZip}`);
 
 if (isUpload && apiKey) {
-	console.log(`[→] Uploading release to ${serverUrl}/wp-json/licensing/v1/releases/upload...`);
+	const endpointPath = args['endpoint'] || '/wp-json/waas/v1/releases/upload';
+	const fullUrl = `${serverUrl.replace(/\/$/, '')}${endpointPath.startsWith('/') ? endpointPath : '/' + endpointPath}`;
+	console.log(`[→] Uploading release to ${fullUrl}...`);
 
-	const uploadUrl = new URL(`${serverUrl.replace(/\/$/, '')}/wp-json/licensing/v1/releases/upload`);
+	const uploadUrl = new URL(fullUrl);
 	const fileStream = fs.createReadStream(outputZip);
 	const boundary = '--------------------------' + Date.now().toString(16);
 
